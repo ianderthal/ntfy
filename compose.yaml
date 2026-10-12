@@ -1,0 +1,18 @@
+services:
+  ntfy:
+    image: binwiederhier/ntfy:v2.29.0
+    container_name: ntfy
+    command: serve
+    restart: unless-stopped
+    environment:
+      TZ: America/Detroit
+      # Keeps messages across restarts so clients can catch up on what they missed
+      NTFY_CACHE_FILE: /var/cache/ntfy/cache.db
+      NTFY_CACHE_DURATION: 12h
+    ports:
+      - "8090:80"
+    volumes:
+      - ntfy-cache:/var/cache/ntfy
+
+volumes:
+  ntfy-cache:
